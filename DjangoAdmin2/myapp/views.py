@@ -14,8 +14,15 @@ from datetime import timedelta
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 from django.core.serializers import serialize
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth import get_user_model
 
 logger = logging.getLogger(__name__)
+
+User = get_user_model()
 
 def home(request):
     return render(request, 'home.html')
@@ -636,3 +643,36 @@ def product_api(request, product_id=None):
             'price': str(product.price),
             'description': product.description
         })
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def check_auth(request):
+    """
+    檢查用戶的認證狀態
+    """
+    try:
+        # 獲取用戶信息
+        user = request.user
+        
+        # 構建用戶數據
+        user_data = {
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'full_name': f"{user.first_name} {user.last_name}".strip(),
+            'last_login': user.last_login,
+            'updated_at': user.date_joined,
+        }
+        
+        return Response({
+            'success': True,
+            'isAuthenticated': True,
+            'user': user_data
+        })
+        
+    except Exception as e:
+        return Response({
+            'success': False,
+            'isAuthenticated': False,
+            'error': str(e)
+        }, status=status.HTTP_400_BAD_REQUEST)

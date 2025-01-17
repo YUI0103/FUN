@@ -48,4 +48,5 @@ urlpatterns = [
     path('messages/compose/', views.compose_message, name='compose_message'),
     path('messages/<int:message_id>/', views.message_detail, name='message_detail'),
     path('messages/<int:message_id>/delete/', views.delete_message, name='delete_message'),
+    path('api/user/check-auth/', views.check_auth, name='check-auth'),
 ]

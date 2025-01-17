@@ -7,8 +7,8 @@ import {
 } from '@vicons/material';
 import { NIcon } from 'naive-ui';
 import { storeToRefs } from 'pinia';
-import { computed, ref } from 'vue';
-import { RouterLink, useRoute } from 'vue-router';
+import { computed, ref, onMounted, watch } from 'vue';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 import ShopCart from './ShopCart.vue';
 import { navList } from './navList.ts';
 import { HamburgerMenu } from './Hamburger';
@@ -17,6 +17,7 @@ import { useCartStore, useDeviceStore, useFavoriteStore, useUserStore } from '@/
 import Container from '@/layout/Container.vue';
 
 const route = useRoute();
+const router = useRouter();
 
 const cartStore = useCartStore();
 const deviceStore = useDeviceStore();
@@ -26,12 +27,12 @@ const userStore = useUserStore();
 const { totalNum, cartList } = storeToRefs(cartStore);
 const { isMobile } = storeToRefs(deviceStore);
 const { favoriteList } = storeToRefs(favoriteStore);
-const { loginStatus } = storeToRefs(userStore);
+const { loginStatus, userInfo } = storeToRefs(userStore);
 
 const cartRef = ref<InstanceType<typeof ShopCart>>();
 const hamBurRef = ref<InstanceType<typeof HamburgerMenu>>();
 
-const isFixed = computed(() => new Set(['Home', 'City', 'Country']).has(route.name!.toString()));
+const isFixed = computed(() => new Set(['Home', 'City', 'Country', 'Member']).has(route.name!.toString()));
 
 const navListComponent = computed(() => navList.filter(({ component }) => component));
 
@@ -41,6 +42,25 @@ function handleClick(target: string) {
 
   cartRef.value?.closeActive();
 };
+
+const handleLogout = async () => {
+  try {
+    await userStore.logout();
+    router.push('/');
+  } catch (error) {
+    console.error('Logout failed:', error);
+  }
+};
+
+watch(loginStatus, (newStatus) => {
+  console.log('Login status changed:', newStatus);
+});
+
+onMounted(async () => {
+  console.log('Component mounted, checking login status...');
+  await userStore.checkLoginStatus();
+  console.log('Login status after check:', loginStatus.value);
+});
 </script>
 
 <template>
@@ -49,11 +69,11 @@ function handleClick(target: string) {
     class="top-0 z-20 flex h-16 justify-center bg-black/30 px-6 py-3 text-white backdrop-blur-[25px]"
     :class="isFixed ? 'fixed left-0 right-0' : 'sticky'"
   >
-    <Container>
+    <Container class="mx-auto w-full md:px-4 xl:px-0 lg:max-w-cc-width px-3">
       <div class="flex w-full justify-between">
         <HamburgerMenu ref="hamBurRef" :is-mobile="isMobile" @active="handleClick" />
         <div class="flex items-center gap-8 lg:w-[526px]">
-          <RouterLink :to="{ name: 'Home' }">
+          <RouterLink :to="{ name: 'Home' }" class="router-link-active router-link-exact-active">
             <img class="h-10 object-cover" :src="websiteConfig.logoImage" alt="logo">
           </RouterLink>
           <ul class="hidden h-full flex-1 items-center justify-center gap-8 md:flex">
@@ -61,7 +81,8 @@ function handleClick(target: string) {
               <li class="nav-item">
                 <component 
                   :is="nav.component" 
-                  class="px-3 py-2 text-sm transition-colors duration-300 hover:text-cc-accent"
+                  class="flex items-center gap-2 whitespace-nowrap px-3 py-2 text-sm transition-colors duration-300 hover:text-cc-accent"
+                  style="writing-mode: horizontal-tb;"
                 />
               </li>
             </template>
@@ -78,18 +99,16 @@ function handleClick(target: string) {
               </NIcon>
             </RouterLink>
           </div>
-          <RouterLink v-if="loginStatus" v-slot="{ navigate }" custom :to="{ name: 'AdminHome' }">
+          <div v-if="loginStatus" class="hidden lg:flex items-center justify-center text-base gap-4">
+            <span class="text-white">{{ userInfo?.full_name || userInfo?.username }}</span>
             <button
-              type="button"
-              class="hidden w-[144px] items-center justify-center gap-[6px] rounded-[50px] bg-cc-accent px-4 py-2 text-base lg:flex"
-              @click="navigate"
+              @click="handleLogout"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-red-600 hover:text-red-700 transition-colors"
             >
-              <NIcon size="24">
-                <PersonOutlineOutlined />
-              </NIcon>
-              會員專區
+              <i class="fas fa-sign-out-alt mr-2"></i>
+              登出
             </button>
-          </RouterLink>
+          </div>
           <RouterLink v-else v-slot="{ navigate }" custom :to="{ name: 'Login' }">
             <button
               type="button"
