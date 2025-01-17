@@ -3,7 +3,7 @@
 # **旅遊趣 ✈️**
 > 探索世界的精彩，從這裡開始，旅遊趣帶您踏上一場奇幻之旅，發現無盡的冒險和美麗風景。
 
-Demo : [旅遊趣](https://travel-fun.vercel.app/#/)
+
 
 <br>
 
@@ -45,85 +45,6 @@ Demo : [旅遊趣](https://travel-fun.vercel.app/#/)
 * [Voomap](https://voomap.vercel.app/)
 * [LocalStorage](https://developer.mozilla.org/zh-TW/docs/Web/API/Window/localStorage)
 
-### 程式碼風格
 
-[![code style](https://antfu.me/badge-code-style.svg)](https://github.com/antfu/eslint-config)
 
-### 設計稿
 
-* 設計師：[Gill](mailto:e26290@gmail.com)
-* 設計稿：[旅遊趣](https://www.figma.com/file/OqJyJviIdcYxBlAbnBUuNf/%E5%85%AD%E8%A7%92-%7C-%E6%97%85%E9%81%8A%E8%B6%A3--%E5%8F%B0%E7%81%A3%E6%97%85%E9%81%8A%E5%A5%97%E7%A5%A8%E8%A8%82%E8%B3%BC?type=design&node-id=1-1041&mode=design&t=eoVvXFBNTvKdggr6-0)
-
-### **前台**
-* 旅遊行程展示：首頁、商品列表、商品介紹等
-* 收藏清單：新增、編輯、刪除收藏商品
-* 購物車：新增、刪除及編輯商品數量
-* 優惠卷：結帳時可套用優惠卷
-* 訂單：創立訂單包含顧客資料、購買時間、購買產品等
-* 結帳：選擇付款方式進行付款
-
-### **後台**
-* 管理者登入驗證
-* 商品管理：新增、編輯、刪除
-* 訂單管理：編輯部分訂單資訊、刪除
-* 優惠卷管理：新增、修改、刪除
-
-<br>
-
-## 前台頁面介紹
-
-### **首頁** 
-<img width="80%" alt="首頁" src="./.screenshots/1.home.png">
-
-### **旅遊行程**
-<img width="80%" alt="旅遊行程-1" src="./.screenshots/2.products-1.png">
-<img width="80%" alt="旅遊行程-2" src="./.screenshots/3.products-2.png">
-<img width="80%" alt="旅遊行程-3" src="./.screenshots/4.products-3.png">
-
-### **收藏清單**
-* 利用 `LocalStorage` 儲存使用者收藏紀錄
-
-<img width="80%" alt="我的最愛" src="./.screenshots/5.wishlist.png">
-
-### **購物車**
-* 購物車預覽
-* 購物車頁面
-
-<img width="80%" alt="購物車預覽" src="./.screenshots/6.cart-1.png">
-
-<img width="80%" alt="購物車" src="./.screenshots/7.cart-2.png">
-
-### **訂單填寫**
-* 紅色星號為必填項目
-* 每個欄位皆有格式驗證
-* 套用優惠卷
-
-<img width="80%" alt="訂單填寫" src="./.screenshots/8.order-1.png">
-<img width="80%" alt="套用優惠卷" src="./.screenshots/9.order-2.png">
-
-### **準備付款**
-<img width="80%" alt="準備付款" src="./.screenshots/10.order-3.png">
-
-### **訂單建立**
-<img width="80%" alt="訂單建立" src="./.screenshots/11.order-4.png">
-
-<br><br>
-
-## 後台頁面介紹
-* 後台設計參考 [Naive Ui Admin](https://github.com/jekip/naive-ui-admin)
-
-### 登入頁面
-<img width="80%" alt="登入頁面" src="./.screenshots/12.login.png">
-
-### **旅遊行程管理頁面**
-<img width="80%" alt="旅遊行程管理頁面" src="./.screenshots/13.admin-product.png">
-
-### **訂單管理**
-<img width="80%" alt="訂單管理頁面" src="./.screenshots/14.admin-order.png">
-
-### **優惠卷管理**
-<img width="80%" alt="優惠卷管理頁面" src="./.screenshots/15.admin-coupon.png">
-
-<br><hr>
-
-更多資訊歡迎前往 **[旅遊趣](https://travel-fun.vercel.app/#/)**  進一步觀看！
