@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { NCard, NForm, NFormItem, NInput, NButton, NCheckbox, NDivider, useMessage } from 'naive-ui';
 import { useRouter } from 'vue-router';
-import useUserStore from '@/stores/user';
+import { useUserStore } from '@/stores/user';
 
 const router = useRouter();
 const message = useMessage();
@@ -100,11 +100,12 @@ const handleSubmit = () => {
       try {
         await userStore.signin({
           username: formValue.value.username,
-          password: formValue.value.password
+          password: formValue.value.password,
+          rememberMe: formValue.value.rememberMe
         });
         message.success('登入成功');
       } catch (error: any) {
-        message.error(error.message || '登入失敗');
+        message.error(error.response?.data?.detail || error.message || '登入失敗');
         generateCaptcha(); // 重新生成驗證碼
       } finally {
         loading.value = false;
@@ -142,6 +143,7 @@ onMounted(() => {
           <NInput
             v-model:value="formValue.username"
             placeholder="請輸入帳號"
+            :disabled="loading"
           />
         </NFormItem>
 
@@ -151,6 +153,7 @@ onMounted(() => {
             type="password"
             show-password-on="click"
             placeholder="請輸入密碼"
+            :disabled="loading"
           />
         </NFormItem>
 
@@ -159,6 +162,7 @@ onMounted(() => {
             <NInput
               v-model:value="formValue.captcha"
               placeholder="請輸入驗證碼"
+              :disabled="loading"
             />
             <div class="flex items-center gap-2">
               <canvas
@@ -168,7 +172,7 @@ onMounted(() => {
                 class="border cursor-pointer"
                 @click="generateCaptcha"
               />
-              <NButton circle quaternary @click="generateCaptcha">
+              <NButton circle quaternary @click="generateCaptcha" :disabled="loading">
                 <template #icon>
                   <div class="i-material-symbols:refresh"></div>
                 </template>
@@ -178,12 +182,12 @@ onMounted(() => {
         </NFormItem>
 
         <div class="flex justify-between items-center mb-4">
-          <NCheckbox v-model:checked="formValue.rememberMe">
+          <NCheckbox v-model:checked="formValue.rememberMe" :disabled="loading">
             記住我
           </NCheckbox>
-          <a href="#" class="text-primary text-sm hover:underline">
+          <NButton text type="primary" @click="router.push('/forgot-password')" :disabled="loading">
             忘記密碼？
-          </a>
+          </NButton>
         </div>
 
         <div class="flex flex-col gap-4">
@@ -193,6 +197,7 @@ onMounted(() => {
             secondary
             strong
             :loading="loading"
+            :disabled="loading"
             @click="handleSubmit"
           >
             {{ loading ? '登入中...' : '登入' }}
@@ -204,6 +209,7 @@ onMounted(() => {
             block
             strong
             @click="goToRegister"
+            :disabled="loading"
           >
             註冊新帳號
           </NButton>

@@ -19,7 +19,7 @@ const mallRouterTo = { name: 'Mall' };
 const activityRouterTo = { name: 'Activity' };
 const tourRouterTo = { name: 'Country', params: { countryName: 'taiwan' } };
 const forumRouterTo = { name: 'Forum' };
-const memberRouterTo = { name: 'Member' };
+const memberRouterTo = { name: 'MemberDashboard' };
 const aboutRouterTo = { name: 'About' };
 
 export const handleItemHeaderClick: CollapseProps['onItemHeaderClick'] = ({

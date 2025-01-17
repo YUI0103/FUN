@@ -1,3 +1,13 @@
+<template>
+  <section class="flex min-h-screen flex-col">
+    <Header />
+    <div class="relative flex-1 flex flex-col items-stretch">
+      <RouterView v-if="isDone" />
+    </div>
+    <Footer />
+  </section>
+</template>
+
 <script setup lang="ts">
 import { useLoadingBar } from 'naive-ui';
 import { storeToRefs } from 'pinia';
@@ -8,6 +18,7 @@ import Footer from '../components/Footer.vue';
 import Header from '../components/Header';
 import { useCartStore, useProductStore } from '../stores';
 import { apiUserCheckSignin, apiUserGetAllProducts, apiUserGetCarts } from '../utils/api';
+import { useUserStore } from '@/stores/user';
 
 const route = useRoute();
 const router = useRouter();
@@ -18,9 +29,11 @@ const isDone = ref(false);
 
 const cartStore = useCartStore();
 const productStore = useProductStore();
+const userStore = useUserStore();
 
 const { cartList, total, finalTotal } = storeToRefs(cartStore);
 const { productList } = storeToRefs(productStore);
+const { userInfo } = storeToRefs(userStore);
 
 const canLoadingBar = computed(() => route.name !== 'Product');
 
@@ -86,14 +99,14 @@ router.beforeEach(async (to, _from, next) => {
     next();
   }
 });
-</script>
 
-<template>
-  <section class="flex min-h-screen flex-col">
-    <Header />
-    <div class="relative flex-1 flex flex-col items-stretch">
-      <RouterView v-if="isDone" />
-    </div>
-    <Footer />
-  </section>
-</template>
+// 登出處理
+const handleLogout = async () => {
+  try {
+    await userStore.logout()
+    router.push('/login')
+  } catch (error) {
+    console.error('Logout failed:', error)
+  }
+}
+</script>

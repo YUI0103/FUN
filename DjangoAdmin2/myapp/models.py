@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.templatetags.static import static
 from ckeditor.fields import RichTextField
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils.translation import gettext_lazy as _
 
 class Member(AbstractUser):
     USER_LEVELS = (
@@ -138,3 +139,22 @@ class RestaurantReview(Review):
     class Meta:
         verbose_name = '餐廳評論'
         verbose_name_plural = '餐廳評論'
+
+class Cart(models.Model):
+    user = models.ForeignKey('Member', on_delete=models.CASCADE, related_name='cart_items')
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = _('購物車項目')
+        verbose_name_plural = _('購物車項目')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.name} ({self.quantity})"
+
+    @property
+    def total_price(self):
+        return self.quantity * self.product.price
