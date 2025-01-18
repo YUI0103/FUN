@@ -22,6 +22,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "allowJs": true,  // 允許使用 JavaScript
+    "esModuleInterop": true,
+  
     "paths": {
       "@/*": [
         "src/*"

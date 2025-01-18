@@ -28,10 +28,50 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'activity',
-        name: 'Activity',
+        name: 'Activityy',
         component: () => import('../views/front/Activity/ActivityView.vue'),
         meta: {
           title: '主題育樂 - Travel Fun',
+        },
+      },
+      {
+        path: 'travel/TravelModel',
+        name: 'Activity',
+        component: () => import('../views/front/Travel/TravelModelView.vue'),
+        meta: {
+          title: '台灣自由行 - Travel Fun',
+        },
+      },
+      {
+        path: 'travel/spots',
+        name: 'Spots',
+        component: () => import('../views/front/Travel/SpotsView.vue'),
+        meta: {
+          title: '台灣景點 - Travel Fun',
+        },
+      },
+      {
+        path: 'travel',
+        name: 'Travel',
+        component: () => import('../views/front/Travel/TravelView.vue'),
+        meta: {
+          title: '台灣景點 - Travel Fun',
+        },
+      },
+      {
+        path: 'travel/TravelMap',
+        name: 'TravelMap',
+        component: () => import('../views/front/Travel/TravelmapView.vue'),
+        meta: {
+          title: '旅遊地圖 - Travel Fun',
+        },
+      },
+      {
+        path: 'travel/city/:city',
+        name: 'city',
+        component: () => import('../views/front/Travel/CityView.vue'),
+        meta: {
+          title: '全台熱門景點 - Travel Fun',
         },
       },
       {
